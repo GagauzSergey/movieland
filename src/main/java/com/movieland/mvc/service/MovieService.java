@@ -16,11 +16,17 @@ public interface MovieService {
 
     void updateMovie(Movie movie);
 
-    List <Movie> getThreeRandomMovies();
+    List<Movie> getThreeRandomMovies();
 
-    List <Movie> getMoviesByGenre (Long id);
+    List<Movie> getMoviesByGenre(Long id);
 
-    List<Movie> getAllMovies(String rating, String price);
+    List<Movie> getAllMovies();
+
+    List<Movie> getAllMoviesSortedByRating();
+
+    List<Movie> getAllMoviesSortedByAscPrice();
+
+    List<Movie> getAllMoviesSortedNyDescPrice();
 
     Movie getMovieCurrencyConverted(Long movieId, String currency);
 }

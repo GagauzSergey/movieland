@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping (value = "/v1", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/v1", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @CrossOrigin
 public class RestMovieController {
 
@@ -45,9 +45,19 @@ public class RestMovieController {
 
     //-------------Get All Movies (optional Sorted)----------------
     @RequestMapping(value = "movie", method = RequestMethod.GET)
-    public ResponseEntity<List<Movie>> getAllMoviesSortedByRating(@RequestParam(value = "rating", required = false ) String rating,
-                                                                  @RequestParam (value = "price", required = false) String price) {
-        List<Movie> movieList = movieService.getMoviesSortedByRating(rating, price);
+    public ResponseEntity<List<Movie>> getAllMoviesSortedByRating(@RequestParam(value = "rating", required = false) String rating,
+                                                                  @RequestParam(value = "price", required = false) String price) {
+        List<Movie> movieList = null;
+        if (rating == null && price == null) {
+            movieList = movieService.getAllMovies();
+        } else if (price == null && rating.equals("desc")) {
+            movieList = movieService.getAllMoviesSortedByRating();
+        } else if (rating == null && price.equals("asc")) {
+            movieList = movieService.getAllMoviesSortedByAscPrice();
+        } else if (rating == null && price.equals("desc")) {
+            movieList = movieService.getAllMoviesSortedNyDescPrice();
+        }
+
         if (movieList.isEmpty()) {
             return new ResponseEntity<List<Movie>>(HttpStatus.BAD_REQUEST);
         }

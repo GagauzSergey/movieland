@@ -34,7 +34,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public void addMovie(Movie movie) {
         movieDao.save(movie);
     }
@@ -45,7 +45,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    @Transactional (readOnly = true)
+    @Transactional(readOnly = true)
     public void updateMovie(Movie movie) {
         movieDao.save(movie);
     }
@@ -76,32 +76,32 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllMovies(String rating, String price) {
-
-        List<Movie> movieList;
-        if (rating == null && price == null) {
-            return movieDao.findAll();
-        }
-        else if (rating != null && rating.equals("desc") && price == null) {
-            movieList = movieDao.findAll();
-            movieList.sort(Comparator.comparing(Movie::getRating));
-            Collections.reverse(movieList);
-            return movieList;
-        }
-        else if (price!=null && price.equals("asc") && rating == null){
-            movieList = movieDao.findAll();
-            movieList.sort(Comparator.comparing(Movie::getPrice));
-            return movieList;
-        }
-        else if (price!=null && price.equals("desc") && rating == null){
-            movieList = movieDao.findAll();
-            movieList.sort(Comparator.comparing(Movie::getPrice));
-            Collections.reverse(movieList);
-            return movieList;
-        }
-        else return null;
+    public List<Movie> getAllMovies() {
+        return movieDao.findAll();
     }
 
+    @Override
+    public List<Movie> getAllMoviesSortedByRating() {
+        List<Movie> movieList = movieDao.findAll();
+        movieList.sort(Comparator.comparing(Movie::getRating));
+        Collections.reverse(movieList);
+        return movieList;
+    }
+
+    @Override
+    public List<Movie> getAllMoviesSortedByAscPrice() {
+        List<Movie> movieList = movieDao.findAll();
+        movieList.sort(Comparator.comparing(Movie::getPrice));
+        return movieList;
+    }
+
+    @Override
+    public List<Movie> getAllMoviesSortedNyDescPrice() {
+        List<Movie> movieList = movieDao.findAll();
+        movieList.sort(Comparator.comparing(Movie::getPrice));
+        Collections.reverse(movieList);
+        return movieList;
+    }
 
     @Override
     public Movie getMovieCurrencyConverted(Long movieId, String currency) {
