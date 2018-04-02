@@ -32,10 +32,17 @@ public class RestMovieController {
         return new ResponseEntity<List<Movie>>(movieList, HttpStatus.OK);
     }
 
-    //------------Get Movie By Id---------------------
+    //------------Get Movie By Id (optional USD price)---------------------
     @RequestMapping(value = "movie/{movieId}", method = RequestMethod.GET)
-    public ResponseEntity<Movie> getMovieById(@PathVariable(value = "movieId") long id) {
-        Movie movie = movieService.getMovieById(id);
+    public ResponseEntity<Movie> getMovieById(@PathVariable(value = "movieId") long id,
+                                              @RequestParam(value = "currency", required = false) String currency) {
+        Movie movie=null;
+        if (currency == null){
+           movie = movieService.getMovieById(id);
+        }
+        else if (currency.equals("USD")){
+            movie = movieService.getMovieCurrencyConverted(id);
+        }
 
         if (movie != null) {
             return new ResponseEntity<Movie>(movie, HttpStatus.OK);

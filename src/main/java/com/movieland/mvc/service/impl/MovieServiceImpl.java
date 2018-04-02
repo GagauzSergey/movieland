@@ -104,15 +104,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieCurrencyConverted(Long movieId, String currency) {
+    public Movie getMovieCurrencyConverted(Long movieId) {
         CurrencyConverter currencyConverter = new CurrencyConverter();
-        if (currency.equals("USD")) {
+
             Movie movie = movieDao.getOne(movieId);
             double priceUA = movie.getPrice();
-            double priceUSD = currencyConverter.usdConvert(priceUA);
+            Long priceUSD = Math.round(currencyConverter.usdConvert(priceUA));
             movie.setPrice(priceUSD);
             return movie;
-        }
-        return null;
     }
 }

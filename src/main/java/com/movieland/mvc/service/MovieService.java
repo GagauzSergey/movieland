@@ -28,5 +28,5 @@ public interface MovieService {
 
     List<Movie> getAllMoviesSortedNyDescPrice();
 
-    Movie getMovieCurrencyConverted(Long movieId, String currency);
+    Movie getMovieCurrencyConverted(Long movieId);
 }
