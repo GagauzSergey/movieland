@@ -56,7 +56,9 @@ public class RestMovieController {
     public ResponseEntity<List<Movie>> getAllMoviesSortedByRating(@RequestParam(value = "rating", required = false) String rating,
                                                                   @RequestParam(value = "price", required = false) String price) {
         List<Movie> movieList = null;
-        if (price == null && rating.equals(SortType.DESC.value())) {
+        if (rating == null && price == null) {
+            movieList = movieService.getAllMovies();
+        } else if (price == null && rating.equals(SortType.DESC.value())) {
             movieList = movieService.getAllMoviesSortedByRating();
         } else if (rating == null && price.equals(SortType.ASC.value())) {
             movieList = movieService.getAllMoviesSortedByAscPrice();
