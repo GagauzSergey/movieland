@@ -1,6 +1,8 @@
 package com.movieland.mvc.controller;
 
+import com.movieland.mvc.model.CurrencyType;
 import com.movieland.mvc.model.Movie;
+import com.movieland.mvc.model.SortType;
 import com.movieland.mvc.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,7 @@ public class RestMovieController {
         Movie movie = null;
         if (currency == null) {
             movie = movieService.getMovieById(id);
-        } else if (currency.equals("USD")) {
+        } else if (currency.equals(CurrencyType.USD.value())) {
             movie = movieService.getMovieCurrencyConverted(id);
         }
 
@@ -54,13 +56,11 @@ public class RestMovieController {
     public ResponseEntity<List<Movie>> getAllMoviesSortedByRating(@RequestParam(value = "rating", required = false) String rating,
                                                                   @RequestParam(value = "price", required = false) String price) {
         List<Movie> movieList = null;
-        if (rating == null && price == null) {
-            movieList = movieService.getAllMovies();
-        } else if (price == null && rating.equals("desc")) {
+        if (price == null && rating.equals(SortType.DESC.value())) {
             movieList = movieService.getAllMoviesSortedByRating();
-        } else if (rating == null && price.equals("asc")) {
+        } else if (rating == null && price.equals(SortType.ASC.value())) {
             movieList = movieService.getAllMoviesSortedByAscPrice();
-        } else if (rating == null && price.equals("desc")) {
+        } else if (rating == null && price.equals(SortType.DESC.value())) {
             movieList = movieService.getAllMoviesSortedNyDescPrice();
         }
 
